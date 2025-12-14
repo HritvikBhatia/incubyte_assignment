@@ -1,14 +1,9 @@
 import { Router } from 'express';
-import { PrismaClient } from '../generated/client';
+import { PrismaClient } from '../generated';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { PrismaPg } from '@prisma/adapter-pg';
-import pg from "pg"
 
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
-const adapter = new PrismaPg(pool);
-
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 
 const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';

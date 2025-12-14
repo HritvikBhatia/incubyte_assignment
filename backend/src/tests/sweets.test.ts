@@ -1,7 +1,7 @@
 // backend/src/tests/sweets.test.ts
 import request from 'supertest';
 import app from '../index';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../generated';
 import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
