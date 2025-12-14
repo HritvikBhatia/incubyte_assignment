@@ -20,8 +20,8 @@ router.get('/', async (req, res) => {
   res.json(sweets);
 });
 
-// POST /api/sweets - Create (Admin)
-router.post('/', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+// POST /api/sweets - Create 
+router.post('/', authenticateToken, async (req: AuthRequest, res) => {
   const { name, category, price, quantity } = req.body;
   const sweet = await prisma.sweet.create({
     data: { name, category, price: parseFloat(price), quantity: parseInt(quantity) }
@@ -29,8 +29,8 @@ router.post('/', authenticateToken, requireAdmin, async (req: AuthRequest, res) 
   res.status(201).json(sweet);
 });
 
-// PUT /api/sweets/:id - Update (Admin)
-router.put('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, res) => {
+// PUT /api/sweets/:id - Update
+router.put('/:id', authenticateToken, async (req: AuthRequest, res) => {
   const { id } = req.params;
   const { name, category, price } = req.body;
   
