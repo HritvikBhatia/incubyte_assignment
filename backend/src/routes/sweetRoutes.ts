@@ -1,9 +1,8 @@
 import { Router } from 'express';
-import { PrismaClient } from '../generated';
+import prisma from '../lib/prisma';
 import { authenticateToken, requireAdmin, AuthRequest } from '../middleware/auth';
 
 const router = Router();
-const prisma = new PrismaClient();
 
 // GET /api/sweets - List & Search
 router.get('/', async (req, res) => {

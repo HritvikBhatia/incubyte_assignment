@@ -1,10 +1,9 @@
 // backend/src/tests/sweets.test.ts
 import request from 'supertest';
 import app from '../index';
-import { PrismaClient } from '../generated';
+import prisma from '../lib/prisma';
 import jwt from 'jsonwebtoken';
 
-const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';
 
 // Helper to generate tokens

@@ -1,24 +1,27 @@
 import { Router } from 'express';
-import { PrismaClient } from '../generated';
+import prisma from '../lib/prisma';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-const prisma = new PrismaClient();
 
 const router = Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined in .env file");
+}
 
 // Register
 router.post('/register', async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     
     const user = await prisma.user.create({
-      data: { email, password: hashedPassword, role: role || 'user' },
+      data: { email, password: hashedPassword, role: 'user' },
     });
 
-    const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET);
     res.status(201).json({ message: 'User registered', token });
   } catch (error) {
     res.status(400).json({ error: 'Email already exists' });
