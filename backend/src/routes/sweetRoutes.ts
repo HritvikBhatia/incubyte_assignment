@@ -82,12 +82,19 @@ router.post('/:id/restock', authenticateToken, requireAdmin, async (req: AuthReq
   const { quantity } = req.body; // Amount to add
   
   try {
-    const sweet = await prisma.sweet.update({
+    const sweet = await prisma.sweet.findUnique({ where: { id: Number(id) } });
+    
+    if (!sweet) {
+      return res.status(404).json({ error: 'Sweet not found' });
+    }
+
+    const updated = await prisma.sweet.update({
       where: { id: Number(id) },
-      data: { quantity: { increment: parseInt(quantity) } }
+      data: { quantity: sweet.quantity + Number(quantity) }
     });
-    res.json(sweet);
+    res.json(updated);
   } catch (e) {
+    console.error("Restock error:", e);
     res.status(500).json({ error: 'Restock failed' });
   }
 });

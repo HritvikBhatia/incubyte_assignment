@@ -1,5 +1,4 @@
-// backend/src/lib/prisma.ts
-import 'dotenv/config'; // Load env vars immediately
+import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
